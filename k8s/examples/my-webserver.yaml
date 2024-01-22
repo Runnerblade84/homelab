@@ -1,0 +1,32 @@
+# File: my-webserver.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-webserver
+spec:
+  selector:
+    app: my-webserver
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-webserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-webserver
+  template:
+    metadata:
+      labels:
+        app: my-webserver
+    spec:
+      containers:
+      - name: my-webserver-container
+        image: nginx:latest
+        ports:
+        - containerPort: 8080
