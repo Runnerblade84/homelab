@@ -1,5 +1,4 @@
 apiVersion: v1
-namespaces: test
 kind: Service
 metadata:
   name: webserver1
@@ -12,7 +11,6 @@ spec:
       targetPort: 8080
 ---
 apiVersion: apps/v1
-namespaces: test
 kind: Deployment
 metadata:
   name: webserver1

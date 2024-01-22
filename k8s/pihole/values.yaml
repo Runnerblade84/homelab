@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 # -- The number of replicas
-replicaCount: 1
+replicaCount: 2
 
 # -- The `spec.strategyTpye` for updates
 strategyType: RollingUpdate
@@ -56,7 +56,7 @@ serviceDns:
 
   # -- Annotations for the DNS service
   annotations:
-    {}
+    metallb.universe.tf/allow-shared-ip: pihole-svc
     # metallb.universe.tf/address-pool: network-services
     # metallb.universe.tf/allow-shared-ip: pihole-svc
 
@@ -113,7 +113,7 @@ serviceWeb:
     nodePort: ""
 
   # -- `spec.type` for the web interface Service
-  type: ClusterIP
+  type: LoadBalancer
 
   # -- `spec.externalTrafficPolicy` for the web interface Service
   externalTrafficPolicy: Local
@@ -129,7 +129,7 @@ serviceWeb:
     # metallb.universe.tf/address-pool: network-services
     # metallb.universe.tf/allow-shared-ip: pihole-svc
 
-virtualHost: pi.hole
+virtualHost: dns1.depax.local
 
 # -- Configuration for the Ingress
 ingress:
@@ -141,13 +141,12 @@ ingress:
 
   # -- Annotations for the ingress
   annotations:
-    {}
-    # kubernetes.io/ingress.class: nginx
+    kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   path: /
   hosts:
     # virtualHost (default value is pi.hole) will be appended to the hosts
-    - pi.hole
+    - dns1.depax.local
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
@@ -196,7 +195,7 @@ resources:
 # -- `spec.PersitentVolumeClaim` configuration
 persistentVolumeClaim:
   # -- set to true to use pvc
-  enabled: false
+  enabled: true
 
   # -- specify an existing `PersistentVolumeClaim` to use
   # existingClaim: ""
